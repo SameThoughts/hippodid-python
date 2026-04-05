@@ -94,8 +94,13 @@ def test_assemble_context_recency_weight():
     ctx_low = assemble_conversational(character, results, 4000, recency_weight=0.0)
     ctx_high = assemble_conversational(character, results, 4000, recency_weight=1.0)
 
+    # Both should produce non-empty memories
+    assert ctx_low.memories != ""
+    assert ctx_high.memories != ""
     # Different recency weights should change memory ordering
-    assert ctx_low.memories != "" or ctx_high.memories != ""
+    assert ctx_low.memories != ctx_high.memories, (
+        "recency_weight=0.0 and recency_weight=1.0 should produce different memory orderings"
+    )
 
 
 def test_conversational_strategy_has_personality_emphasis():

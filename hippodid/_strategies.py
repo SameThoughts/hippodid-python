@@ -15,7 +15,6 @@ def _estimate_tokens(text: str) -> int:
 def _format_memories_by_relevance(
     results: List[SearchResult],
     max_tokens: int,
-    recency_weight: float,
 ) -> str:
     """Format memories ordered by relevance, respecting token budget."""
     if not results:
@@ -73,7 +72,7 @@ def assemble_default(
     """Default strategy: system_prompt + profile + memories ordered by relevance."""
     system_prompt = _get_system_prompt(character)
     profile = _format_profile(character)
-    memories = _format_memories_by_relevance(results, max_context_tokens, recency_weight)
+    memories = _format_memories_by_relevance(results, max_context_tokens)
     config = _get_agent_config(character)
 
     prompt_parts = []
@@ -107,13 +106,21 @@ def assemble_conversational(
     profile = _format_profile(character)
     config = _get_agent_config(character)
 
-    # Boost recency by reordering: mix relevance with recency
+    # Boost recency by reordering: blend relevance with position-based recency.
+    # Results from the API are ordered by relevance; we treat earlier positions
+    # as "more recent" and use the index as a recency proxy (0 = most recent).
+    n = len(results) if results else 1
     sorted_results = sorted(
-        results,
-        key=lambda r: r.relevance_score * (1.0 - recency_weight) + recency_weight,
+        enumerate(results),
+        key=lambda pair: (
+            pair[1].relevance_score * (1.0 - recency_weight)
+            + (1.0 - pair[0] / n) * recency_weight
+        ),
         reverse=True,
     )
-    memories = _format_memories_by_relevance(sorted_results, max_context_tokens, recency_weight)
+    memories = _format_memories_by_relevance(
+        [r for _, r in sorted_results], max_context_tokens
+    )
 
     prompt_parts = []
     if system_prompt:
@@ -158,7 +165,7 @@ def assemble_task_focused(
         results,
         key=lambda r: (0 if r.category.lower() in priority_categories else 1, -r.relevance_score),
     )
-    memories = _format_memories_by_relevance(prioritized, max_context_tokens, recency_weight)
+    memories = _format_memories_by_relevance(prioritized, max_context_tokens)
 
     prompt_parts = []
     if system_prompt:
@@ -205,7 +212,7 @@ def assemble_concierge(
         results,
         key=lambda r: (0 if r.category.lower() in preference_categories else 1, -r.relevance_score),
     )
-    memories = _format_memories_by_relevance(prioritized, max_context_tokens, recency_weight)
+    memories = _format_memories_by_relevance(prioritized, max_context_tokens)
 
     prompt_parts = [
         system_prompt or "You are a thoughtful, proactive concierge.",
@@ -244,7 +251,7 @@ def assemble_matching(
 
     # Only include a handful of highest-relevance memories
     top_results = results[:3] if results else []
-    memories = _format_memories_by_relevance(top_results, max_context_tokens // 4, recency_weight)
+    memories = _format_memories_by_relevance(top_results, max_context_tokens // 4)
 
     prompt_parts = [
         system_prompt or "",
