@@ -1,7 +1,6 @@
 """Tests for memory operations."""
 
 import httpx
-import respx
 
 from tests.conftest import MEMORY_JSON, SEARCH_RESULT_JSON
 

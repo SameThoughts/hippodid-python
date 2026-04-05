@@ -1,7 +1,6 @@
 """Tests for assemble_context and strategies."""
 
 import httpx
-import respx
 
 from hippodid.models import AssembledContext, Character, SearchResult
 from hippodid._strategies import (

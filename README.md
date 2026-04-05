@@ -158,7 +158,7 @@ See the `examples/` directory:
 - **[openai_agents_hippodid.py](examples/openai_agents_hippodid.py)** -- OpenAI Agents SDK with memory tools
 - **[luxury_concierge.py](examples/luxury_concierge.py)** -- Assembly strategy showcase
 - **[salesforce_to_hippodid.py](examples/salesforce_to_hippodid.py)** -- End-to-end batch pipeline
-- **[healer_matching.py](examples/healer_matching.py)** -- Cross-character matching (Sprint 19)
+- **[healer_matching.py](examples/healer_matching.py)** -- Cross-character matching
 
 ## API Reference
 

@@ -1,7 +1,6 @@
 """Tests for character CRUD operations."""
 
 import httpx
-import respx
 
 from tests.conftest import CHARACTER_JSON
 
