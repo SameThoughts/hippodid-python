@@ -166,4 +166,4 @@ Full documentation at [docs.hippodid.com](https://docs.hippodid.com).
 
 ## License
 
-MIT
+Apache 2.0
