@@ -15,7 +15,6 @@ Requirements: pip install hippodid langchain langchain-anthropic
 from typing import Any, Dict, List
 
 from langchain.memory import BaseChatMemory
-from langchain.schema import BaseMessage
 from langchain_anthropic import ChatAnthropic
 from langchain.chains import ConversationChain
 

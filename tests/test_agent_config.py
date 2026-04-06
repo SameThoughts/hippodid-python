@@ -2,8 +2,6 @@
 
 import httpx
 
-from tests.conftest import CHARACTER_JSON
-
 
 CID = "c1000000-0000-0000-0000-000000000001"
 
