@@ -568,7 +568,8 @@ class HippoDid:
 
     def set_memory_mode(self, character_id: str, mode: str) -> Character:
         """Set memory ingestion mode: EXTRACTED, VERBATIM, or HYBRID."""
-        return self.update_character(character_id, memory_mode=mode)
+        char = self.get_character(character_id)
+        return self.update_character(character_id, name=char.name, memory_mode=mode)
 
     # ═════════════════════════════════════════════════════════════════════════
     # Ask / RAG Chat

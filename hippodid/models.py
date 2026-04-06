@@ -61,15 +61,15 @@ class Character(BaseModel):
     description: Optional[str] = None
     external_id: Optional[str] = Field(None, alias="externalId")
     visibility: str = "PRIVATE"
-    created_by: str = Field(alias="createdBy")
+    created_by: Optional[str] = Field(None, alias="createdBy")
     profile: CharacterProfile = Field(default_factory=CharacterProfile)
     aliases: List[Alias] = Field(default_factory=list)
     categories: List[Category] = Field(default_factory=list)
     agent_config: Optional[AgentConfig] = Field(None, alias="agentConfig")
     memory_mode: str = Field("EXTRACTED", alias="memoryMode")
     memory_count: int = Field(0, alias="memoryCount")
-    created_at: datetime = Field(alias="createdAt")
-    updated_at: datetime = Field(alias="updatedAt")
+    created_at: Optional[datetime] = Field(None, alias="createdAt")
+    updated_at: Optional[datetime] = Field(None, alias="updatedAt")
 
     model_config = {"populate_by_name": True}
 
@@ -80,15 +80,15 @@ class Character(BaseModel):
 class Memory(BaseModel):
     id: str
     character_id: str = Field(alias="characterId")
-    created_by: str = Field(alias="createdBy")
+    created_by: Optional[str] = Field(None, alias="createdBy")
     content: str
     category: str
     salience: float
     content_hash: str = Field("", alias="contentHash")
     visibility: str = "PRIVATE"
     state: str = "ACTIVE"
-    created_at: datetime = Field(alias="createdAt")
-    updated_at: datetime = Field(alias="updatedAt")
+    created_at: Optional[datetime] = Field(None, alias="createdAt")
+    updated_at: Optional[datetime] = Field(None, alias="updatedAt")
 
     model_config = {"populate_by_name": True}
 

@@ -540,7 +540,8 @@ class AsyncHippoDid:
         )
 
     async def set_memory_mode(self, character_id: str, mode: str) -> Character:
-        return await self.update_character(character_id, memory_mode=mode)
+        char = await self.get_character(character_id)
+        return await self.update_character(character_id, name=char.name, memory_mode=mode)
 
     # ═════════════════════════════════════════════════════════════════════════
     # Ask / RAG Chat
