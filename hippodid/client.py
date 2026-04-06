@@ -103,9 +103,7 @@ class HippoDid:
         return Character.model_validate(self._get(f"/v1/characters/{character_id}"))
 
     def get_character_by_external_id(self, external_id: str) -> Character:
-        return Character.model_validate(
-            self._get(f"/v1/characters/external/{external_id}")
-        )
+        return Character.model_validate(self._get(f"/v1/characters/external/{external_id}"))
 
     def list_characters(
         self,
@@ -144,9 +142,7 @@ class HippoDid:
             body["description"] = description
         if memory_mode is not None:
             body["memoryMode"] = memory_mode
-        return Character.model_validate(
-            self._put(f"/v1/characters/{character_id}", json=body)
-        )
+        return Character.model_validate(self._put(f"/v1/characters/{character_id}", json=body))
 
     def delete_character(self, character_id: str) -> None:
         self._delete(f"/v1/characters/{character_id}")
@@ -337,9 +333,7 @@ class HippoDid:
             body["defaultValues"] = default_values
         if field_mappings is not None:
             body["fieldMappings"] = field_mappings
-        return CharacterTemplate.model_validate(
-            self._post("/v1/templates/characters", json=body)
-        )
+        return CharacterTemplate.model_validate(self._post("/v1/templates/characters", json=body))
 
     def list_character_templates(self) -> List[CharacterTemplate]:
         data = self._get("/v1/templates/characters")
@@ -380,9 +374,7 @@ class HippoDid:
     def delete_character_template(self, template_id: str) -> None:
         self._delete(f"/v1/templates/characters/{template_id}")
 
-    def preview_character_template(
-        self, template_id: str, sample_row: Dict[str, str]
-    ) -> Character:
+    def preview_character_template(self, template_id: str, sample_row: Dict[str, str]) -> Character:
         return Character.model_validate(
             self._post(
                 f"/v1/templates/characters/{template_id}/preview",
@@ -419,7 +411,9 @@ class HippoDid:
             raise TypeError(f"data must be a list of dicts or pandas DataFrame, got {type(data)}")
 
         csv_bytes = self._rows_to_csv(rows)
-        return self._upload_batch(template_id, csv_bytes, "data.csv", external_id_column, on_conflict, dry_run)
+        return self._upload_batch(
+            template_id, csv_bytes, "data.csv", external_id_column, on_conflict, dry_run
+        )
 
     def batch_create_from_file(
         self,
@@ -433,7 +427,9 @@ class HippoDid:
         with open(file_path, "rb") as f:
             file_bytes = f.read()
         filename = file_path.rsplit("/", 1)[-1] if "/" in file_path else file_path
-        return self._upload_batch(template_id, file_bytes, filename, external_id_column, on_conflict, dry_run)
+        return self._upload_batch(
+            template_id, file_bytes, filename, external_id_column, on_conflict, dry_run
+        )
 
     def get_batch_job_status(self, job_id: str) -> BatchJob:
         return BatchJob.model_validate(self._get(f"/v1/jobs/{job_id}"))
@@ -474,9 +470,7 @@ class HippoDid:
     # ═════════════════════════════════════════════════════════════════════════
 
     def get_agent_config(self, character_id: str) -> AgentConfig:
-        return AgentConfig.model_validate(
-            self._get(f"/v1/characters/{character_id}/agent-config")
-        )
+        return AgentConfig.model_validate(self._get(f"/v1/characters/{character_id}/agent-config"))
 
     def set_agent_config(
         self,
@@ -599,9 +593,7 @@ class HippoDid:
             body["category"] = category
         if use_agent_config:
             body["useAgentConfig"] = True
-        return AskResult.model_validate(
-            self._post(f"/v1/characters/{character_id}/ask", json=body)
-        )
+        return AskResult.model_validate(self._post(f"/v1/characters/{character_id}/ask", json=body))
 
     # ═════════════════════════════════════════════════════════════════════════
     # Assemble Context (client-side)
@@ -632,8 +624,7 @@ class HippoDid:
         strategy_fn = STRATEGIES.get(strategy)
         if strategy_fn is None:
             raise ValueError(
-                f"Unknown strategy '{strategy}'. "
-                f"Available: {', '.join(STRATEGIES.keys())}"
+                f"Unknown strategy '{strategy}'. Available: {', '.join(STRATEGIES.keys())}"
             )
 
         return strategy_fn(character, results, max_context_tokens, recency_weight)

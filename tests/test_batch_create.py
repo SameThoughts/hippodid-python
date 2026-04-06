@@ -10,9 +10,7 @@ TID = "t3000000-0000-0000-0000-000000000001"
 
 
 def test_get_batch_job_status(client, mock_api):
-    mock_api.get(f"/v1/jobs/{JID}").mock(
-        return_value=httpx.Response(200, json=BATCH_JOB_JSON)
-    )
+    mock_api.get(f"/v1/jobs/{JID}").mock(return_value=httpx.Response(200, json=BATCH_JOB_JSON))
     job = client.get_batch_job_status(JID)
     assert job.status == "COMPLETED"
     assert job.progress.total == 10
@@ -22,6 +20,7 @@ def test_get_batch_job_status(client, mock_api):
 
 def test_rows_to_csv():
     from hippodid.client import HippoDid
+
     rows = [
         {"name": "Alice", "role": "Engineer"},
         {"name": "Bob", "role": "Manager"},
@@ -35,11 +34,13 @@ def test_rows_to_csv():
 
 def test_rows_to_csv_empty():
     from hippodid.client import HippoDid
+
     assert HippoDid._rows_to_csv([]) == b""
 
 
 def test_batch_create_validates_data_type(client):
     import pytest
+
     with pytest.raises(TypeError, match="list of dicts"):
         client.batch_create_characters(TID, "not-a-list", "id_col")
 

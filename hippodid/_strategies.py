@@ -113,14 +113,11 @@ def assemble_conversational(
     sorted_results = sorted(
         enumerate(results),
         key=lambda pair: (
-            pair[1].relevance_score * (1.0 - recency_weight)
-            + (1.0 - pair[0] / n) * recency_weight
+            pair[1].relevance_score * (1.0 - recency_weight) + (1.0 - pair[0] / n) * recency_weight
         ),
         reverse=True,
     )
-    memories = _format_memories_by_relevance(
-        [r for _, r in sorted_results], max_context_tokens
-    )
+    memories = _format_memories_by_relevance([r for _, r in sorted_results], max_context_tokens)
 
     prompt_parts = []
     if system_prompt:
@@ -132,8 +129,7 @@ def assemble_conversational(
         )
     if memories:
         prompt_parts.append(
-            f"\n## Recent Context & Memories\n"
-            f"Draw on these naturally in conversation:\n{memories}"
+            f"\n## Recent Context & Memories\nDraw on these naturally in conversation:\n{memories}"
         )
 
     formatted = "\n".join(prompt_parts)
@@ -179,8 +175,7 @@ def assemble_task_focused(
 
     if memories:
         prompt_parts.append(
-            f"\n## Relevant Context\n"
-            f"Use these facts to inform your work:\n{memories}"
+            f"\n## Relevant Context\nUse these facts to inform your work:\n{memories}"
         )
 
     formatted = "\n".join(prompt_parts)

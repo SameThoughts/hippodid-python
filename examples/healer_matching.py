@@ -33,11 +33,13 @@ def match_healer(patient_query: str) -> None:
             strategy="matching",
             max_context_tokens=1000,
         )
-        matches.append({
-            "character": healer,
-            "context": ctx,
-            "token_estimate": ctx.token_estimate,
-        })
+        matches.append(
+            {
+                "character": healer,
+                "context": ctx,
+                "token_estimate": ctx.token_estimate,
+            }
+        )
 
     # Sort by context richness (more relevant profile = better match)
     matches.sort(key=lambda m: m["token_estimate"], reverse=True)

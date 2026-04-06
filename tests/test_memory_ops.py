@@ -65,7 +65,5 @@ def test_update_memory(client, mock_api):
 
 def test_delete_memory(client, mock_api):
     mid = "m2000000-0000-0000-0000-000000000001"
-    mock_api.delete(f"/v1/characters/{CID}/memories/{mid}").mock(
-        return_value=httpx.Response(204)
-    )
+    mock_api.delete(f"/v1/characters/{CID}/memories/{mid}").mock(return_value=httpx.Response(204))
     client.delete_memory(CID, mid)

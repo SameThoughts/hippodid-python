@@ -65,10 +65,12 @@ def test_assemble_context_token_budget():
     character = _make_character()
     # Create many results to exceed budget
     results = [
-        SearchResult.model_validate({
-            **SEARCH_RESULT_JSON,
-            "content": f"Memory fact number {i} with some extra text to increase size " * 5,
-        })
+        SearchResult.model_validate(
+            {
+                **SEARCH_RESULT_JSON,
+                "content": f"Memory fact number {i} with some extra text to increase size " * 5,
+            }
+        )
         for i in range(50)
     ]
 
@@ -82,11 +84,13 @@ def test_assemble_context_token_budget():
 def test_assemble_context_recency_weight():
     character = _make_character()
     results = [
-        SearchResult.model_validate({
-            **SEARCH_RESULT_JSON,
-            "content": f"Memory {i}",
-            "relevanceScore": 0.5 + (i * 0.05),
-        })
+        SearchResult.model_validate(
+            {
+                **SEARCH_RESULT_JSON,
+                "content": f"Memory {i}",
+                "relevanceScore": 0.5 + (i * 0.05),
+            }
+        )
         for i in range(10)
     ]
 
@@ -142,5 +146,6 @@ def test_unknown_strategy_raises(client, mock_api):
         return_value=httpx.Response(200, json={"results": [], "count": 0})
     )
     import pytest
+
     with pytest.raises(ValueError, match="Unknown strategy"):
         client.assemble_context(CID, "test", strategy="nonexistent")

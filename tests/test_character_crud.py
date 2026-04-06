@@ -6,9 +6,7 @@ from tests.conftest import CHARACTER_JSON
 
 
 def test_create_character(client, mock_api):
-    mock_api.post("/v1/characters").mock(
-        return_value=httpx.Response(201, json=CHARACTER_JSON)
-    )
+    mock_api.post("/v1/characters").mock(return_value=httpx.Response(201, json=CHARACTER_JSON))
     char = client.create_character(name="Ada", description="A test character")
     assert char.name == "Ada"
     assert char.id == "c1000000-0000-0000-0000-000000000001"
@@ -45,18 +43,14 @@ def test_list_characters(client, mock_api):
 def test_update_character(client, mock_api):
     cid = "c1000000-0000-0000-0000-000000000001"
     updated = {**CHARACTER_JSON, "name": "Ada v2"}
-    mock_api.put(f"/v1/characters/{cid}").mock(
-        return_value=httpx.Response(200, json=updated)
-    )
+    mock_api.put(f"/v1/characters/{cid}").mock(return_value=httpx.Response(200, json=updated))
     char = client.update_character(cid, name="Ada v2")
     assert char.name == "Ada v2"
 
 
 def test_delete_character(client, mock_api):
     cid = "c1000000-0000-0000-0000-000000000001"
-    mock_api.delete(f"/v1/characters/{cid}").mock(
-        return_value=httpx.Response(204)
-    )
+    mock_api.delete(f"/v1/characters/{cid}").mock(return_value=httpx.Response(204))
     client.delete_character(cid)  # should not raise
 
 

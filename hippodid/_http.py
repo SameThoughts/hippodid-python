@@ -124,7 +124,9 @@ class SyncTransport:
 
             except (httpx.ConnectError, httpx.ReadTimeout) as exc:
                 if attempt >= self._max_retries:
-                    raise HippoDidError(f"Connection failed after {self._max_retries} retries: {exc}")
+                    raise HippoDidError(
+                        f"Connection failed after {self._max_retries} retries: {exc}"
+                    )
                 time.sleep(backoff)
                 attempt += 1
                 backoff *= 2
@@ -162,7 +164,9 @@ class SyncTransport:
 
             except (httpx.ConnectError, httpx.ReadTimeout) as exc:
                 if attempt >= self._max_retries:
-                    raise HippoDidError(f"Connection failed after {self._max_retries} retries: {exc}")
+                    raise HippoDidError(
+                        f"Connection failed after {self._max_retries} retries: {exc}"
+                    )
                 time.sleep(backoff)
                 attempt += 1
                 backoff *= 2

@@ -106,9 +106,7 @@ class AsyncHippoDid:
         return Character.model_validate(await self._get(f"/v1/characters/{character_id}"))
 
     async def get_character_by_external_id(self, external_id: str) -> Character:
-        return Character.model_validate(
-            await self._get(f"/v1/characters/external/{external_id}")
-        )
+        return Character.model_validate(await self._get(f"/v1/characters/external/{external_id}"))
 
     async def list_characters(
         self,
@@ -214,9 +212,7 @@ class AsyncHippoDid:
         body: Dict[str, Any] = {"query": query, "topK": top_k}
         if categories:
             body["categories"] = categories
-        data = await self._post(
-            f"/v1/characters/{character_id}/memories/search", json=body
-        )
+        data = await self._post(f"/v1/characters/{character_id}/memories/search", json=body)
         return [SearchResult.model_validate(r) for r in data.get("results", [])]
 
     async def get_memories(
@@ -493,9 +489,7 @@ class AsyncHippoDid:
     async def delete_agent_config(self, character_id: str) -> None:
         await self._delete(f"/v1/characters/{character_id}/agent-config")
 
-    async def create_agent_config_template(
-        self, name: str, **kwargs: Any
-    ) -> AgentConfigTemplate:
+    async def create_agent_config_template(self, name: str, **kwargs: Any) -> AgentConfigTemplate:
         body = {
             "name": name,
             "config": {

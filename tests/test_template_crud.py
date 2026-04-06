@@ -46,9 +46,7 @@ def test_update_character_template(client, mock_api):
 
 
 def test_delete_character_template(client, mock_api):
-    mock_api.delete(f"/v1/templates/characters/{TID}").mock(
-        return_value=httpx.Response(204)
-    )
+    mock_api.delete(f"/v1/templates/characters/{TID}").mock(return_value=httpx.Response(204))
     client.delete_character_template(TID)
 
 

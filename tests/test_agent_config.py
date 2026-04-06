@@ -47,9 +47,7 @@ def test_set_agent_config(client, mock_api):
 
 
 def test_delete_agent_config(client, mock_api):
-    mock_api.delete(f"/v1/characters/{CID}/agent-config").mock(
-        return_value=httpx.Response(204)
-    )
+    mock_api.delete(f"/v1/characters/{CID}/agent-config").mock(return_value=httpx.Response(204))
     client.delete_agent_config(CID)
 
 
