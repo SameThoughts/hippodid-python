@@ -89,7 +89,9 @@ SEARCH_RESULT_JSON = {
     "decayWeight": 1.0,
     "occurrenceCount": 1,
     "occurrenceBoost": 0.0,
+    "reaffirmation": 1.0,
     "finalScore": 0.95,
+    "normalizedScore": 1.0,
 }
 
 TEMPLATE_JSON = {
