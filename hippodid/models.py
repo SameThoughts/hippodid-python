@@ -101,7 +101,9 @@ class SearchResult(BaseModel):
     salience: float = 0.0
     decay_weight: float = Field(1.0, alias="decayWeight")
     occurrence_count: int = Field(0, alias="occurrenceCount")
-    occurrence_boost: float = Field(0.0, alias="occurrenceBoost")  # PM-14b: deprecated, use reaffirmation
+    occurrence_boost: float = Field(
+        0.0, alias="occurrenceBoost"
+    )  # PM-14b: deprecated, use reaffirmation
     reaffirmation: float = Field(1.0)  # PM-14a: multiplicative reaffirmation factor
     final_score: float = Field(0.0, alias="finalScore")
     normalized_score: float = Field(0.0, alias="normalizedScore")  # PM-13: batch normalization
